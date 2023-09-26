@@ -2,37 +2,40 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-class ImageCard extends StatelessWidget{
+class ImageCard extends StatelessWidget {
   final String authorName;
   final String imageUrl;
 
-  const ImageCard({super.key, required this.authorName,required this.imageUrl});
+  const ImageCard({required this.authorName, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      surfaceTintColor: Colors.deepPurple,
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Flex(
-          direction: Axis.vertical,
-          children: [ 
-            Text(authorName,
-                textAlign: TextAlign.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            color: Color(0xFFDBD6FF), // Hex value for purple
+            height: 55,
+            child: Center(
+              child: Text(
+                authorName,
+                style: TextStyle(
+                  color: Colors.grey.shade900, // Charcoal grey color
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.bold, // Bold
                 ),
-                Flexible(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.network(imageUrl)
-                    ],
+              ),
+            ),
           ),
+          Expanded(
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.fill,  // Fill available space
+            ),
           ),
-          ],
-        ),
-      )
+        ],
+      ),
     );
   }
 }
-  
