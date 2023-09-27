@@ -10,6 +10,7 @@ import 'package:flutter_app_gallery/network/endpoints.dart';
 import 'package:flutter_app_gallery/network/imageService.dart';
 
 import 'api_test.mocks.dart';
+import 'package:flutter_app_gallery/main.dart';
 
 
 /**
@@ -19,21 +20,45 @@ import 'api_test.mocks.dart';
  */
 
 @GenerateMocks([http.Client])
-void main(){
-  ImageWebService imageWebService;
+void main() {
+  group('fetch list of images', () {
+    test('returns an array of image objects if the http call completes successfully', () async {
+      final client = MockClient();
 
-  group('Call image api',(){
-    EndPoints endPoints = EndPoints();
-    final url  = endPoints.getImageInfoFromId(1);
-    WebImage mockWebImage = WebImage(id: "1", author: "John Doe", width: 300, height: 300, url: 'https://example.com/data', download_url:'https://example.com/data');
-    WebImageList mockWebImageList = WebImageList(webimages: [mockWebImage]);
+   
+       when(client.get(Uri.parse('https://picsum.photos/v2/list')))
+      .thenAnswer((_) async => http.Response('''
+    [
+        {
+            "id": "0",
+            "author": "Alejandro Escamilla",
+            "width": 5616,
+            "height": 3744,
+            "url": "https://unsplash.com/...",
+            "download_url": "https://picsum.photos/..."
+        }
+    ]
+''', 200));
 
-    //Here is an example of a successful networking call
-    test("Return webImageList if http completes", () async{
-      final httpClient = MockClient();
-      imageWebService = ImageWebService(httpClient);
-      when(httpClient.get(any)).thenAnswer((_) async => http.Response(jsonEncode(mockWebImage),200));
-      expect(imageWebService.fetchWebImageInfo(1),isA<Future<WebImage>>());
+      final imageWebService = ImageWebService(client);
+      final webImages = await imageWebService.fetchListOfWebImages();
+
+      expect(webImages, isA<List<WebImage>>());
+    });
+  
+
+    test('throws an exception if the http call completes with an error', () async {
+      final client = MockClient();
+
+ 
+      when(client.get(Uri.parse('https://picsum.photos/v2/list')))
+          .thenAnswer((_) async => http.Response('', 500));
+
+  
+      final imageWebService = ImageWebService(client);
+   
+
+      expect(imageWebService.fetchListOfWebImages(), throwsException);
     });
   });
 }

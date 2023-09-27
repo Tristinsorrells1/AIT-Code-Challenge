@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           titleTextStyle: TextStyle(
-            color: Colors.white, // Make the title text white
+            color: Colors.white, 
           ),
         ),
         useMaterial3: true,
@@ -41,6 +41,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   EndPoints endPoints = EndPoints();
   List<WebImage> webImages = [];
+  ImageWebService imageWebService = ImageWebService(http.Client());
 
   @override
   void initState() {
@@ -50,12 +51,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _fetchWebImages() async {
     try {
-      List<WebImage> images = await ImageWebService(http.Client()).fetchListOfWebImages();
+      List<WebImage> images = await imageWebService.fetchListOfWebImages();
       setState(() {
         webImages = images;
       });
     } catch (e) {
-      // Handle errors
       print("Error fetching web images: $e");
     }
   }
