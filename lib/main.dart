@@ -1,37 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_gallery/network/endpoints.dart';
 import 'package:flutter_app_gallery/network/imageService.dart';
 import 'package:flutter_app_gallery/widgets/imageCard.dart';
 import 'package:flutter_app_gallery/models/webimage.dart';
 import 'package:http/http.dart' as http;
+
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         appBarTheme: AppBarTheme(
-          titleTextStyle: TextStyle(
-            color: Colors.white, // Make the title text white
+          titleTextStyle: const TextStyle(
+            color: Colors.white,
           ),
         ),
         useMaterial3: true,
       ),
-      home: MyHomePage(title: 'Gallery App'),
+      home: const MyHomePage(title: 'Gallery App'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key? key, required this.title});
   final String title;
 
   @override
@@ -39,8 +38,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  EndPoints endPoints = EndPoints();
   List<WebImage> webImages = [];
+  final ImageWebService imageWebService = ImageWebService(http.Client());
 
   @override
   void initState() {
@@ -50,28 +49,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _fetchWebImages() async {
     try {
-      List<WebImage> images = await ImageWebService(http.Client()).fetchListOfWebImages();
+      List<WebImage> images = await imageWebService.fetchListOfWebImages();
       setState(() {
         webImages = images;
       });
     } catch (e) {
-      // Handle errors
       print("Error fetching web images: $e");
     }
   }
 
-   PageController _pageController = PageController(initialPage: 0);
+  PageController _pageController = PageController(initialPage: 0);
 
   void _previousImage() {
     _pageController.previousPage(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
   }
 
   void _nextImage() {
     _pageController.nextPage(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
   }
@@ -80,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:  Color(0xFF4240B1),
+        backgroundColor: const Color(0xFF4240B1),
         title: Text(widget.title),
       ),
       body: Column(
@@ -104,12 +102,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Container(
             color: Colors.grey.shade900,
-            padding: EdgeInsets.symmetric(horizontal: 90.0), // Adjust the padding here
+            padding: const EdgeInsets.symmetric(
+                horizontal: 90.0), 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: Text(
+                  icon: const Text(
                     "<",
                     style: TextStyle(
                       color: Colors.white,
@@ -119,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: _previousImage,
                 ),
                 IconButton(
-                  icon: Text(
+                  icon: const Text(
                     ">",
                     style: TextStyle(
                       color: Colors.white,

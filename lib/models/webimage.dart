@@ -6,7 +6,6 @@ class WebImage{
   int height;
   String url;
   String download_url;
- // Add default width and height here
   static const int defaultWidth = 400;
   static const int defaultHeight = 400;
   

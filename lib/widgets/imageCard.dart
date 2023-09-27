@@ -15,15 +15,15 @@ class ImageCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            color: Color(0xFFDBD6FF), // Hex value for purple
+            color: Color(0xFFDBD6FF), 
             height: 55,
             child: Center(
               child: Text(
                 authorName,
                 style: TextStyle(
-                  color: Colors.grey.shade900, // Charcoal grey color
+                  color: Colors.grey.shade900, 
                   fontSize: 12.0,
-                  fontWeight: FontWeight.bold, // Bold
+                  fontWeight: FontWeight.bold, 
                 ),
               ),
             ),
@@ -31,7 +31,7 @@ class ImageCard extends StatelessWidget {
           Expanded(
             child: Image.network(
               imageUrl,
-              fit: BoxFit.fill,  // Fill available space
+              fit: BoxFit.fill,  
             ),
           ),
         ],
