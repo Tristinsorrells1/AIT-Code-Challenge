@@ -3,21 +3,10 @@ import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:flutter_app_gallery/models/webImageList.dart';
 import 'package:flutter_app_gallery/models/webimage.dart';
-import 'package:flutter_app_gallery/network/endpoints.dart';
 import 'package:flutter_app_gallery/network/imageService.dart';
-
 import 'api_test.mocks.dart';
-import 'package:flutter_app_gallery/main.dart';
 
-
-/**
- * Here we test our api calls!
- * For full coverage remember to create tests for all your calls
- * You want to cover a succesful call and a possible failure 
- */
 
 @GenerateMocks([http.Client])
 void main() {
